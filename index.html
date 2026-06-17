@@ -8,11 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
 --navy:#2B3A52;
@@ -88,20 +84,15 @@ margin-bottom:1rem;
 
 .intro-sub,
 .capture-sub,
-.result-body,
-.cta-text{
+.result-body{
 color:var(--muted);
 line-height:1.7;
 margin-bottom:2rem;
 }
 
-button{
-cursor:pointer;
-}
+button{cursor:pointer;}
 
-.btn-primary,
-.btn-next,
-.btn-teal{
+.btn-primary,.btn-next,.btn-teal{
 width:100%;
 padding:16px;
 border:none;
@@ -111,14 +102,8 @@ font-size:15px;
 font-weight:500;
 }
 
-.btn-primary,
-.btn-next{
-background:var(--navy);
-}
-
-.btn-teal{
-background:var(--teal);
-}
+.btn-primary,.btn-next{background:var(--navy);}
+.btn-teal{background:var(--teal);}
 
 .btn-ghost{
 padding:12px 20px;
@@ -239,6 +224,11 @@ line-height:1.8;
 color:var(--muted);
 margin-bottom:2rem;
 }
+
+h4{
+margin-bottom:1rem;
+color:var(--navy);
+}
 </style>
 </head>
 <body>
@@ -283,33 +273,53 @@ survival:{
 tag:"tag-crit",
 label:"Perfil 1",
 title:"Líder en modo supervivencia",
-body:"Tu liderazgo está sosteniendo gran parte de la operación, pero a un costo elevado para tu energía y sostenibilidad.",
-obs:["Sobrecarga operativa","Poco espacio estratégico","Riesgo de agotamiento"],
-cta:"Agenda una conversación de diagnóstico con el equipo"
+body:"Tu liderazgo está sosteniendo gran parte de la operación, pero a un costo elevado para tu energía y sostenibilidad. La exigencia constante puede estar generando desgaste silencioso tanto en ti como en tu equipo.",
+obs:[
+"Sobrecarga operativa.",
+"Poco espacio para pensar estratégicamente.",
+"Riesgo de agotamiento y dependencia excesiva del líder."
+],
+recommendation:"Es momento de revisar cómo estás sosteniendo los resultados y qué parte del sistema necesita dejar de depender exclusivamente de ti.",
+cta:"Agenda una conversación de diagnóstico con el equipo."
 },
 reactive:{
 tag:"tag-warn",
 label:"Perfil 2",
 title:"Líder reactivo",
-body:"Gran parte de tu energía se consume respondiendo urgencias en lugar de liderar crecimiento.",
-obs:["Liderazgo absorbido por operación","Dificultad para sostener foco","Equipos con baja autonomía"],
-cta:"Descubre cómo fortalecer tu liderazgo estratégico"
+body:"Tienes experiencia, compromiso y capacidad de ejecución. Sin embargo, gran parte de tu energía se consume respondiendo a urgencias en lugar de liderar el crecimiento de forma intencional.",
+obs:[
+"Liderazgo absorbido por la operación.",
+"Dificultad para sostener foco estratégico.",
+"Equipos que podrían funcionar con mayor autonomía."
+],
+recommendation:"Recuperar claridad y espacio estratégico puede generar un impacto inmediato en la productividad del equipo.",
+cta:"Descubre cómo fortalecer tu liderazgo estratégico."
 },
 conscious:{
 tag:"tag-ok",
 label:"Perfil 3",
 title:"Líder consciente",
-body:"Has desarrollado prácticas saludables y existe una base sólida para seguir creciendo.",
-obs:["Buen nivel de consciencia","Cultura saludable","Espacios de mejora"],
-cta:"Conoce el enfoque Bioempresarial"
+body:"Has desarrollado prácticas saludables de liderazgo y existe una base sólida para seguir creciendo. Hoy la oportunidad no está en trabajar más, sino en fortalecer los sistemas que sostienen a las personas y los resultados.",
+obs:[
+"Buen nivel de consciencia.",
+"Cultura relativamente saludable.",
+"Espacios de mejora en coordinación y sostenibilidad."
+],
+recommendation:"Pequeños ajustes pueden traducirse en mejoras significativas para tu equipo.",
+cta:"Conoce el enfoque Bioempresarial."
 },
 transformer:{
 tag:"tag-ok",
 label:"Perfil 4",
 title:"Líder transformador",
-body:"Tu liderazgo genera impacto en resultados y sostenibilidad humana.",
-obs:["Alta consciencia","Liderazgo estratégico","Cultura alineada"],
-cta:"Expande este modelo en toda tu organización"
+body:"Estás construyendo una forma de liderar alineada con los desafíos de las organizaciones del futuro. Tu liderazgo genera impacto no solo en los resultados, sino también en la salud y sostenibilidad de las personas.",
+obs:[
+"Alto nivel de consciencia.",
+"Liderazgo estratégico.",
+"Cultura alineada con el crecimiento sostenible."
+],
+recommendation:"El desafío ahora es escalar este impacto y convertirlo en una ventaja organizacional.",
+cta:"Expande este modelo en toda tu organización."
 }
 };
 
@@ -320,7 +330,6 @@ let app;
 
 function calculateProfile(){
 const avg = answers.reduce((a,b)=>a+b,0)/8;
-
 if(avg <= 1.2) return "survival";
 if(avg <= 2.2) return "reactive";
 if(avg <= 3.2) return "conscious";
@@ -338,9 +347,7 @@ function renderIntro(){
 app.innerHTML = `
 <div>
 <div class="intro-eyebrow">Diagnóstico de Liderazgo Bioempresarial™️</div>
-<h1 class="intro-title">
-Descubre si tu forma actual de liderar está impulsando la productividad sostenible de tu equipo o contribuyendo al desgaste silencioso de la organización.
-</h1>
+<h1 class="intro-title">Descubre si tu forma actual de liderar está impulsando la productividad sostenible de tu equipo o contribuyendo al desgaste silencioso de la organización.</h1>
 <p class="intro-sub">2 minutos · 8 preguntas · Resultado inmediato</p>
 <button class="btn-primary" onclick="startQuiz()">Comenzar diagnóstico →</button>
 </div>`;
@@ -415,35 +422,23 @@ app.innerHTML = `
 ${r.obs.map(x=>`<li>${x}</li>`).join("")}
 </ul>
 
+<div class="divider"></div>
+
+<h4>Recomendación</h4>
+<p class="result-body">${r.recommendation}</p>
+
 <button class="btn-teal" onclick="window.open('${CONFIG.agendaUrl}','_blank')">${r.cta}</button>
 </div>`;
 }
 
-function startQuiz(){
-step="quiz";
-render();
-}
-
-function selectOption(i){
-answers[current]=i;
-render();
-}
-
-function goBack(){
-current--;
-render();
-}
+function startQuiz(){step="quiz";render();}
+function selectOption(i){answers[current]=i;render();}
+function goBack(){current--;render();}
 
 function goNext(){
 if(answers[current]===null) return;
-
-if(current<7){
-current++;
-render();
-}else{
-step="capture";
-render();
-}
+if(current<7){current++;render();}
+else{step="capture";render();}
 }
 
 async function submitData(){
