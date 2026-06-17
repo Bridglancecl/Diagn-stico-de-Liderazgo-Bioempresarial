@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Diagnóstico de Liderazgo Bioempresarial™️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+
+:root{
+  --navy:#2B3A52;
+  --navy-dark:#1a2535;
+  --teal:#1D9E75;
+  --teal-light:#E8F7F1;
+  --teal-mid:#5DCAA5;
+  --orange:#D85A30;
+  --cream:#F8F5F0;
+  --cream-dark:#EEE9E2;
+  --text:#1a2535;
+  --muted:#6B7A8D;
+  --white:#FFFFFF;
+  --border:rgba(43,58,82,.12);
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1rem;
+}
+
+.container{
+  width:100%;
+  max-width:560px;
+}
+
+.brand{
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+.brand-name{
+  font-family:'Playfair Display',serif;
+  font-size:28px;
+  color:var(--navy);
+}
+
+.brand-line{
+  width:32px;
+  height:2px;
+  background:var(--teal);
+  margin:8px auto 0;
+}
+
+.card{
+  background:white;
+  border-radius:20px;
+  padding:2.5rem;
+  border:1px solid var(--border);
+}
+
+.intro-eyebrow,
+.capture-eyebrow{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--teal);
+  margin-bottom:1rem;
+}
+
+.intro-title,
+.capture-title,
+.result-title,
+.question-text{
+  font-family:'Playfair Display',serif;
+  color:var(--navy);
+}
+
+.intro-title{
+  font-size:30px;
+  line-height:1.35;
+  margin-bottom:1rem;
+}
+
+.intro-sub,
+.capture-sub,
+.result-body,
+.cta-text{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.intro-sub{
+  margin-bottom:2rem;
+}
+
+.btn-primary,
+.btn-teal,
+.btn-next{
+  width:100%;
+  border:none;
+  border-radius:12px;
+  padding:16px;
+  color:white;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:500;
+}
+
+.btn-primary,
+.btn-next{
+  background:var(--navy);
+}
+
+.btn-teal{
+  background:var(--teal);
+}
+
+.btn-ghost{
+  background:none;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px 20px;
+  cursor:pointer;
+}
+
+.progress-wrap{
+  margin-bottom:2rem;
+}
+
+.progress-track{
+  height:5px;
+  background:var(--cream-dark);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  background:var(--teal);
+}
+
+.section-badge{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:20px;
+  margin-bottom:1rem;
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+.badge-energia{background:#E1F5EE;color:#0F6E56;}
+.badge-foco{background:#EAF3DE;color:#3B6D11;}
+.badge-liderazgo{background:#FAEEDA;color:#854F0B;}
+.badge-coord{background:#FBEAF0;color:#993556;}
+
+.question-text{
+  font-size:22px;
+  margin-bottom:1.5rem;
+}
+
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:2rem;
+}
+
+.opt{
+  padding:14px 18px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:white;
+  cursor:pointer;
+}
+
+.opt.selected{
+  border-color:var(--teal);
+  background:var(--teal-light);
+}
+
+.field{
+  margin-bottom:1rem;
+}
+
+.field label{
+  display:block;
+  margin-bottom:6px;
+}
+
+.field input{
+  width:100%;
+  padding:13px 16px;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+.result-level-tag{
+  display:inline-block;
+  margin-bottom:1rem;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:11px;
+  text-transform:uppercase;
+}
+
+.tag-ok{background:#E1F5EE;color:#0F6E56;}
+.tag-warn{background:#FAEEDA;color:#854F0B;}
+.tag-crit{background:#FCEBEB;color:#A32D2D;}
+
+.divider{
+  height:1px;
+  background:var(--cream-dark);
+  margin:1.5rem 0;
+}
+
+.fade-in{
+  animation:fadeIn .3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="brand">
+    <div class="brand-name">Bridglance</div>
+    <div class="brand-line"></div>
+  </div>
+
+  <div class="card" id="app"></div>
+</div>
+
+<script>
+const CONFIG = {
+  apiKey: "TU_API_KEY_MAILERLITE",
+  groups: {
+    survival: "ID_GRUPO_1",
+    reactive: "ID_GRUPO_2",
+    conscious: "ID_GRUPO_3",
+    transformer: "ID_GRUPO_4"
+  },
+  agendaUrl: "https://wa.link/hc0zow"
+};
+
+const QUESTIONS = [
+["Energía","badge-energia","¿Cómo evalúas tu nivel de energía al finalizar la mayoría de tus jornadas laborales?"],
+["Energía","badge-energia","¿Qué tan sostenible consideras tu ritmo de trabajo actual durante los próximos 12 meses?"],
+["Claridad","badge-foco","¿Qué tan claro tienes hoy cuáles son las prioridades estratégicas que requieren tu atención?"],
+["Claridad","badge-foco","¿Con qué frecuencia logras dedicar tiempo a liderar estratégicamente en lugar de resolver urgencias operativas?"],
+["Liderazgo","badge-liderazgo","¿Qué tan alineado percibes a tu equipo respecto a los objetivos y prioridades de la organización?"],
+["Liderazgo","badge-liderazgo","¿Qué tan efectiva consideras tu capacidad para influir positivamente en el compromiso y motivación de tu equipo?"],
+["Cultura","badge-coord","¿Qué tan saludable consideras la cultura de trabajo de tu organización?"],
+["Cultura","badge-coord","¿Qué tan consciente eres del impacto que tu liderazgo tiene sobre la energía, bienestar y desempeño de tu equipo?"]
+];
+
+const OPTIONS = ["Muy bajo","Bajo","Medio","Alto","Muy alto"];
+
+const RESULTS = {
+survival:{
+tag:"tag-crit",
+label:"Perfil 1",
+title:"Líder en modo supervivencia",
+body:"Tu liderazgo está sosteniendo gran parte de la operación, pero a un costo elevado para tu energía y sostenibilidad.",
+cta:"Agenda una conversación de diagnóstico con el equipo"
+},
+reactive:{
+tag:"tag-warn",
+label:"Perfil 2",
+title:"Líder reactivo",
+body:"Gran parte de tu energía se consume respondiendo urgencias en lugar de liderar crecimiento.",
+cta:"Descubre cómo fortalecer tu liderazgo estratégico"
+},
+conscious:{
+tag:"tag-ok",
+label:"Perfil 3",
+title:"Líder consciente",
+body:"Has desarrollado prácticas saludables y existe una base sólida para seguir creciendo.",
+cta:"Conoce el enfoque Bioempresarial"
+},
+transformer:{
+tag:"tag-ok",
+label:"Perfil 4",
+title:"Líder transformador",
+body:"Tu liderazgo genera impacto en resultados y sostenibilidad humana.",
+cta:"Expande este modelo en toda tu organización"
+}
+};
+
+let step="intro";
+let current=0;
+let answers=new Array(8).fill(null);
+let userData={name:"",email:""};
+
+const app=document.getElementById("app");
+
+function calculateProfile(){
+  const avg=answers.reduce((a,b)=>a+b,0)/8;
+
+  if(avg<=1.2) return "survival";
+  if(avg<=2.2) return "reactive";
+  if(avg<=3.2) return "conscious";
+  return "transformer";
+}
+
+function render(){
+  if(step==="intro") renderIntro();
+  if(step==="quiz") renderQuiz();
+  if(step==="capture") renderCapture();
+  if(step==="result") renderResult();
+}
+
+function renderIntro(){
+  app.innerHTML=`
+  <div class="fade-in">
+    <div class="intro-eyebrow">Diagnóstico de Liderazgo Bioempresarial™️</div>
+    <h1 class="intro-title">
+      Descubre si tu forma actual de liderar está impulsando la productividad sostenible de tu equipo o contribuyendo al desgaste silencioso de la organización.
+    </h1>
+    <p class="intro-sub">2 minutos · 8 preguntas · Resultado inmediato</p>
+    <button class="btn-primary" onclick="startQuiz()">Comenzar diagnóstico →</button>
+  </div>`;
+}
+
+function renderQuiz(){
+  const q=QUESTIONS[current];
+  const progress=((current)/8)*100;
+
+  app.innerHTML=`
+  <div class="fade-in">
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${progress}%"></div>
+      </div>
+    </div>
+
+    <div class="section-badge ${q[1]}">${q[0]}</div>
+    <div class="question-text">${q[2]}</div>
+
+    <div class="options">
+      ${OPTIONS.map((o,i)=>`
+      <button class="opt ${answers[current]===i?'selected':''}" onclick="selectOpt(${i})">
+        ${o}
+      </button>`).join("")}
+    </div>
+
+    ${current>0 ? `<button class="btn-ghost" onclick="goBack()">← Atrás</button>`:""}
+    <button class="btn-next" onclick="goNext()">Siguiente →</button>
+  </div>`;
+}
+
+function renderCapture(){
+  app.innerHTML=`
+  <div class="fade-in">
+    <div class="capture-eyebrow">Casi listo</div>
+    <div class="capture-title">¿A dónde enviamos tu perfil de liderazgo?</div>
+    <p class="capture-sub">
+      Ingresa tus datos para recibir el diagnóstico completo y recomendaciones personalizadas.
+    </p>
+
+    <div class="field">
+      <label>Nombre</label>
+      <input id="name"/>
+    </div>
+
+    <div class="field">
+      <label>Correo electrónico</label>
+      <input id="email"/>
+    </div>
+
+    <button class="btn-teal" onclick="submitData()">Ver mis resultados →</button>
+  </div>`;
+}
+
+function renderResult(){
+  const profile=calculateProfile();
+  const r=RESULTS[profile];
+
+  app.innerHTML=`
+  <div class="fade-in">
+    <div class="result-level-tag ${r.tag}">${r.label}</div>
+    <div class="result-title">${r.title}</div>
+    <p class="result-body">${r.body}</p>
+
+    <div class="divider"></div>
+
+    <p class="cta-text">
+      Es momento de revisar cómo estás liderando y qué parte del sistema necesita evolucionar.
+    </p>
+
+    <button class="btn-teal" onclick="window.open('${CONFIG.agendaUrl}','_blank')">
+      ${r.cta} →
+    </button>
+  </div>`;
+}
+
+function startQuiz(){
+  step="quiz";
+  render();
+}
+
+function selectOpt(i){
+  answers[current]=i;
+  render();
+}
+
+function goBack(){
+  current--;
+  render();
+}
+
+function goNext(){
+  if(answers[current]===null) return;
+
+  if(current<7){
+    current++;
+    render();
+  } else {
+    step="capture";
+    render();
+  }
+}
+
+async function submitData(){
+  userData.name=document.getElementById("name").value;
+  userData.email=document.getElementById("email").value;
+
+  await subscribeToMailerLite(
+    userData.name,
+    userData.email
+  );
+
+  step="result";
+  render();
+}
+
+async function subscribeToMailerLite(name,email){
+  const profile=calculateProfile();
+
+  try{
+    await fetch("https://connect.mailerlite.com/api/subscribers",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + CONFIG.apiKey
+      },
+      body:JSON.stringify({
+        email:email,
+        fields:{
+          name:name,
+          leadership_profile:profile
+        },
+        groups:[CONFIG.groups[profile]]
+      })
+    });
+  }catch(e){}
+}
+
+render();
+</script>
+
+</body>
+</html>
